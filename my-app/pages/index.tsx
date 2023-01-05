@@ -11,29 +11,18 @@ const Home: NextPage = () => {
       </Head>
 
       <div>
-        <header className={styles.header}>Aplicação NextJs</header>
+        <header className={styles.header}>NextJs Application</header>
       </div>
 
       <div>
-        <p className={styles.paragraph}>
-          Não sei o que colocar de legal nessa pagina
-        </p>
-        <p className={styles.paragraph}>
-          Fiquei testando o colorscheme Dracula:
-          <p>
-            <a
-              className={styles.link}
-              href="https://draculatheme.com/"
-              target="_blank"
-            >
-              Link da pagina do Dracula
-            </a>
-          </p>
-        </p>
+        <iframe
+          className={styles.metabase_container}
+          src="http://traact-metabase-dashboard.us-west-1.elasticbeanstalk.com/public/question/155e8210-7b55-4694-8f27-47374f30e7e1"
+        ></iframe>
       </div>
 
       <div>
-        <footer className={styles.footer}>Rodapé</footer>
+        <footer className={styles.footer}>Footer</footer>
       </div>
     </main>
   );
