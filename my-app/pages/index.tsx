@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import styles from "../styles/index.module.css";
 import jwt from "jsonwebtoken";
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const key = process.env.NEXT_PUBLIC_METABASE_SECRET_KEY || "";
 
   const payload = {
@@ -16,7 +16,7 @@ export async function getServerSideProps() {
   return { props: { token } };
 }
 
-function Home({ token }) {
+const Home: NextPage<{ token: string }> = ({ token }) => {
   return (
     <main>
       <Head>
@@ -45,6 +45,6 @@ function Home({ token }) {
       </div>
     </main>
   );
-}
+};
 
 export default Home;
