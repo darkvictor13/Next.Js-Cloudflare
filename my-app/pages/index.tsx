@@ -1,8 +1,22 @@
 import Head from "next/head";
 import { NextPage } from "next";
 import styles from "../styles/index.module.css";
+import jwt from "jsonwebtoken";
 
-const Home: NextPage = () => {
+export async function getServerSideProps() {
+  const key = process.env.NEXT_PUBLIC_METABASE_SECRET_KEY || "";
+
+  const payload = {
+    resource: { dashboard: 3 },
+    params: {},
+    exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
+  };
+
+  const token = jwt.sign(JSON.stringify(payload), key);
+  return { props: { token } };
+}
+
+function Home({ token }) {
   return (
     <main>
       <Head>
@@ -17,7 +31,12 @@ const Home: NextPage = () => {
       <div>
         <iframe
           className={styles.metabase_container}
-          src="http://traact-metabase-dashboard.us-west-1.elasticbeanstalk.com/public/question/155e8210-7b55-4694-8f27-47374f30e7e1"
+          src={
+            process.env.NEXT_PUBLIC_METABASE_SITE_URL +
+            "/embed/dashboard/" +
+            token +
+            "#theme=transparent&bordered=true&titled=true"
+          }
         ></iframe>
       </div>
 
@@ -26,6 +45,6 @@ const Home: NextPage = () => {
       </div>
     </main>
   );
-};
+}
 
 export default Home;
