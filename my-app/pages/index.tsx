@@ -4,15 +4,16 @@ import styles from "../styles/index.module.css";
 import jwt from "jsonwebtoken";
 
 export async function getStaticProps() {
-  const key = process.env.NEXT_PUBLIC_METABASE_SECRET_KEY || "";
+  const key = process.env.METABASE_SECRET_KEY || "";
+  const dashboardNumber: number = +(process.env.METABASE_DASH_NUMBER || 4);
 
   const payload = {
-    resource: { dashboard: 3 },
+    resource: { dashboard: dashboardNumber },
     params: {},
     exp: Math.round(Date.now() / 1000) + 10 * 60, // 10 minute expiration
   };
 
-  const token = jwt.sign(JSON.stringify(payload), key);
+  const token = jwt.sign(payload, key);
   return { props: { token } };
 }
 
@@ -32,7 +33,7 @@ const Home: NextPage<{ token: string }> = ({ token }) => {
         <iframe
           className={styles.metabase_container}
           src={
-            process.env.NEXT_PUBLIC_METABASE_SITE_URL +
+            process.env.METABASE_SITE_URL +
             "/embed/dashboard/" +
             token +
             "#theme=transparent&bordered=true&titled=true"
